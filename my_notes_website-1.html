@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#3978f6">
+<title>My Notes — Personal Notes</title>
+<style>
+:root{--bg:#f4f7fc;--panel:#fff;--fg:#182238;--muted:#6b7890;--line:#e2e8f2;--accent:#3978f6;--soft:#eaf1ff;--danger:#c33}
+[data-theme=dark]{--bg:#101827;--panel:#192437;--fg:#edf2fc;--muted:#aab7cb;--line:#304056;--accent:#6d9bff;--soft:#253a60;--danger:#ff7d7d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{max-width:1180px;margin:auto;padding:20px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:11px}.logo{background:var(--accent);color:#fff;border-radius:13px;padding:11px 14px;font-weight:800;font-size:20px}.brand h1{font-size:21px;margin:0}.sub,.muted,.meta{color:var(--muted)}.sub{font-size:12px}.btn{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--fg);padding:9px 13px}.primary{background:var(--accent);border-color:var(--accent);color:#fff}.layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:18px}.panel,.note,.editorbox{background:var(--panel);border:1px solid var(--line);border-radius:15px}.side{padding:12px;height:max-content}.nav{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:9px;margin:2px 0}.nav:hover,.nav.active{background:var(--soft);color:var(--accent)}.side-label{font-size:11px;letter-spacing:.08em;color:var(--muted);margin:15px 8px 5px}.main{min-width:0}.toolbar{display:flex;gap:8px;margin-bottom:16px}.field{width:100%;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:11px;outline-color:var(--accent)}textarea.field{resize:vertical;line-height:1.6}.heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.heading h2{font-size:25px;margin:0}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}.chip{border:1px solid var(--line);border-radius:30px;background:var(--panel);color:var(--fg);padding:6px 11px;font-size:12px}.chip.active{background:var(--soft);color:var(--accent);border-color:var(--accent)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.note{padding:14px;min-width:0;cursor:pointer}.note:hover{border-color:var(--accent)}.note h3{font-size:16px;margin:10px 0 7px;overflow-wrap:anywhere}.note p{color:var(--muted);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:90px;overflow:hidden}.tag{display:inline-block;border-radius:20px;background:var(--soft);color:var(--accent);padding:4px 8px;font-size:11px}.meta{font-size:11px;margin-top:12px}.thumbs{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}.thumbs img{width:calc(33.33% - 4px);height:70px;object-fit:cover;border-radius:8px}.editorbox{padding:18px}.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.photo{border:1px solid var(--line);padding:8px;border-radius:10px;min-width:0}.photo img{width:100%;height:115px;object-fit:cover;border-radius:7px}.photo input{margin-top:7px;padding:8px;font-size:12px}.empty{padding:40px 15px;text-align:center;border:1px dashed var(--line);border-radius:15px;color:var(--muted)}.hidden{display:none!important}.status{font-size:12px;color:var(--muted)}.danger{color:var(--danger)}.trashrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;margin-bottom:9px}.footer{font-size:11px;color:var(--muted);margin-top:20px;text-align:center}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#24344e;color:#fff;padding:11px 16px;border-radius:11px;box-shadow:0 5px 20px #0002;z-index:9;max-width:90vw}
+@media(max-width:760px){.app{padding:13px}.layout{grid-template-columns:1fr}.side{display:flex;gap:4px;overflow:auto;padding:7px}.side-label,.side .catnav,.side #addcat,.side .trashnav{display:none}.nav{white-space:nowrap;width:auto;padding:9px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{flex-wrap:wrap}.toolbar .field{flex:1 1 100%}.heading h2{font-size:22px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.photos{grid-template-columns:repeat(2,minmax(0,1fr))}.brand h1{font-size:18px}.top{align-items:flex-start}.top .btn{padding:8px}.heading{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<header class="top">
+<div class="brand"><div class="logo">N</div><div><h1>My Notes</h1><div class="sub">Write · Save · Remember</div></div></div>
+<div style="display:flex;gap:7px"><button class="btn" id="theme">☾ Dark</button><button class="btn primary" id="new">＋ New Note</button></div>
+</header>
+<div class="layout">
+<aside class="side panel">
+<button class="nav active" data-view="all">⌂ All Notes</button><button class="nav" data-view="favorites">♡ Favorites</button><button class="nav" data-view="pinned">📌 Pinned</button>
+<div class="side-label">CATEGORIES</div><div id="catnav" class="catnav" style="width:100%"></div><button class="nav" id="addcat">＋ Add Category</button><button class="nav trashnav" data-view="trash">▤ Trash</button>
+</aside>
+<main class="main">
+<section id="home">
+<div class="toolbar"><input id="search" class="field" placeholder="⌕ Search your notes…"><button class="btn" id="backup">Backup</button><button class="btn" id="restorebackup">Import</button><input id="importfile" class="hidden" type="file" accept=".json,application/json"></div>
+<div class="heading"><h2 id="title">All Notes</h2><span id="count" class="status"></span></div>
+<div id="chips" class="chips"></div><div id="notes" class="grid"></div><div id="empty" class="empty hidden">📝<h3>No notes found</h3><p>Start by creating your first note.</p><button class="btn primary" id="emptynew">＋ Create Note</button></div>
+</section>
+<section id="editor" class="hidden">
+<div class="heading"><button class="btn" id="back">← Back</button><span id="saveStatus" class="status">Ready</span></div>
+<div class="editorbox">
+<input id="ntitle" class="field" placeholder="Note title…" style="font-size:19px;font-weight:650;margin-bottom:10px">
+<div class="editor-actions"><select id="category" class="field" style="max-width:190px"></select><button class="btn" id="fav">♡ Favorite</button><button class="btn" id="pin">📌 Pin</button></div>
+<textarea id="body" class="field" rows="12" placeholder="Write anything you want to remember…"></textarea>
+<div class="editor-actions" style="justify-content:space-between;align-items:center"><label class="btn">＋ Add Photos <input id="photosInput" type="file" accept="image/*" multiple class="hidden"></label><span class="status" id="dateinfo"></span></div>
+<div id="photos" class="photos"></div>
+<div class="editor-actions"><button class="btn primary" id="save">Save Note</button><button class="btn danger" id="delete">Move to Trash</button></div>
+</div>
+</section>
+<section id="trash" class="hidden"><div class="heading"><h2>Trash</h2><button class="btn danger" id="emptytrash">Empty Trash</button></div><div id="trashitems"></div><p class="status">Restore notes if you deleted them by mistake.</p></section>
+</main>
+</div>
+<div class="footer">Notes are stored in this browser on this device. Export a backup regularly.</div>
+</div>
+<script>
+(()=> {
+const $=id=>document.getElementById(id);let db,notes=[],trash=[],cats=['Personal','Study','Ideas','Memories'],view='all',filter='All',current=null,photos=[],dark=false,timer;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8),now=()=>new Date().toISOString();
+const fmt=d=>{try{return new Date(d).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})}catch{return ''}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(s){let el=document.querySelector('.toast');if(!el){el=document.createElement('div');el.className='toast';document.body.append(el)}el.textContent=s;clearTimeout(toast.t);toast.t=setTimeout(()=>el.remove(),2600)}
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open('MyNotesPersonalDB',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>{db=r.result;res()};r.onerror=()=>rej(r.error)})}
+function read(k){return new Promise((res,rej)=>{let r=db.transaction('kv').objectStore('kv').get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function write(k,v){return new Promise((res,rej)=>{let t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=res;t.onerror=()=>rej(t.error)})}
+async function persist(){try{await Promise.all([write('notes',notes),write('trash',trash),write('cats',cats)]);$('saveStatus').textContent='✓ Saved';return true}catch(e){toast('Could not save. Export backup or free browser storage.');return false}}
+function setTheme(){document.documentElement.dataset.theme=dark?'dark':'light';$('theme').textContent=dark?'☀ Light':'☾ Dark'}
+function screen(s){$('home').classList.toggle('hidden',s!=='home');$('editor').classList.toggle('hidden',s!=='editor');$('trash').classList.toggle('hidden',s!=='trash')}
+function renderCats(){$('catnav').innerHTML=cats.map(c=>`<button class="nav" data-cat="${esc(c)}">▸ ${esc(c)}</button>`).join('');$('category').innerHTML=cats.map(c=>`<option>${esc(c)}</option>`).join('');$('chips').innerHTML=['All',...cats].map(c=>`<button class="chip ${filter===c?'active':''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('')}
+function render(){renderCats();let q=$('search').value.trim().toLowerCase(),arr=notes.filter(n=>!n.deleted);if(view==='favorites')arr=arr.filter(n=>n.favorite);if(view==='pinned')arr=arr.filter(n=>n.pinned);if(view==='cat')arr=arr.filter(n=>n.category===filter);if(view==='all'&&filter!=='All')arr=arr.filter(n=>n.category===filter);if(q)arr=arr.filter(n=>(n.title+' '+n.body+' '+n.category).toLowerCase().includes(q));arr.sort((a,b)=>(+b.pinned-+a.pinned)||new Date(b.updated)-new Date(a.updated));$('title').textContent=view==='favorites'?'Favorites':view==='pinned'?'Pinned':view==='cat'?filter+' Notes':'All Notes';$('count').textContent=arr.length+' notes';$('chips').classList.toggle('hidden',view==='favorites'||view==='pinned');$('notes').innerHTML=arr.map(n=>`<article class="note" data-open="${n.id}"><div style="display:flex;justify-content:space-between;gap:8px"><span class="tag">${esc(n.category)}</span><span>${n.pinned?'📌 ':''}${n.favorite?'♥':''}</span></div><h3>${esc(n.title||'Untitled note')}</h3><p>${esc(n.body||'No text yet.')}</p>${n.photos?.length?`<div class="thumbs">${n.photos.slice(0,3).map(p=>`<img src="${p.data}" alt="${esc(p.caption||'Note photo')}">`).join('')}</div>`:''}<div class="meta">Updated ${esc(fmt(n.updated))}</div></article>`).join('');$('empty').classList.toggle('hidden',arr.length>0);renderTrash()}
+function renderTrash(){$('trashitems').innerHTML=trash.map(n=>`<div class="panel trashrow"><div style="min-width:0"><b>${esc(n.title||'Untitled note')}</b><div class="meta">Deleted ${esc(fmt(n.deletedAt))}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" data-restore="${n.id}">Restore</button><button class="btn danger" data-permanent="${n.id}">Delete forever</button></div></div>`).join('')||'<div class="empty">Trash is empty.</div>'}
+function editor(id){current=id?notes.find(n=>n.id===id):null;photos=current?structuredClone(current.photos||[]):[];$('ntitle').value=current?.title||'';$('body').value=current?.body||'';$('category').value=current?.category||cats[0];$('fav').textContent=current?.favorite?'♥ Favorited':'♡ Favorite';$('pin').textContent=current?.pinned?'📌 Pinned':'📌 Pin';$('delete').classList.toggle('hidden',!current);$('dateinfo').textContent=current?'Created '+fmt(current.created):'New note · '+fmt(now());$('saveStatus').textContent='Ready';renderPhotos();screen('editor')}
+function renderPhotos(){$('photos').innerHTML=photos.map((p,i)=>`<div class="photo"><img src="${p.data}" alt=""><input class="field" data-caption="${i}" value="${esc(p.caption||'')}" placeholder="Photo caption"><button class="btn danger" style="width:100%;margin-top:7px" data-remove="${i}">Remove</button></div>`).join('')}
+function draft(){return {id:current?.id||uid(),title:$('ntitle').value,body:$('body').value,category:$('category').value||cats[0],favorite:current?.favorite||false,pinned:current?.pinned||false,photos,created:current?.created||now(),updated:now()}}
+async function save(){let n=draft();if(!current&&!n.title.trim()&&!n.body.trim()&&!n.photos.length){toast('Write something or add a photo first.');return}let i=notes.findIndex(x=>x.id===n.id);if(i<0)notes.unshift(n);else notes[i]=n;current=n;await persist();$('dateinfo').textContent='Created '+fmt(n.created)+' · Updated '+fmt(n.updated);render()}
+function autosave(){clearTimeout(timer);$('saveStatus').textContent='Typing…';timer=setTimeout(async()=>{if(!current&&!$('ntitle').value.trim()&&!$('body').value.trim()&&!photos.length)return;await save();$('saveStatus').textContent='✓ Auto-saved'},900)}
+async function exportBackup(){let blob=new Blob([JSON.stringify({app:'My Notes',version:1,categories:cats,notes,trash,exportedAt:now()})],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-notes-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1200);toast('Backup exported. Keep the file safe.')}
+async function importBackup(file){try{let d=JSON.parse(await file.text());if(!Array.isArray(d.notes)||!Array.isArray(d.categories))throw Error();if(!confirm('Replace current notes with this backup?'))return;notes=d.notes;trash=Array.isArray(d.trash)?d.trash:[];cats=[...new Set([...['Personal','Study','Ideas','Memories'],...d.categories])];await persist();render();toast('Backup restored')}catch{toast('Invalid backup file. Nothing changed.')}}
+document.addEventListener('click',async e=>{let b=e.target.closest('button');if(!b)return;
+if(b.id==='new'||b.id==='emptynew')editor(null);
+if(b.id==='back'){clearTimeout(timer);screen('home');render()}
+if(b.id==='save'){clearTimeout(timer);await save();toast('Note saved')}
+if(b.id==='delete'&&current&&confirm('Move this note to Trash?')){trash.unshift({...current,deletedAt:now()});notes=notes.filter(n=>n.id!==current.id);await persist();screen('home');render();toast('Moved to Trash')}
+if(b.id==='fav'&&current){current.favorite=!current.favorite;b.textContent=current.favorite?'♥ Favorited':'♡ Favorite';autosave()}
+if(b.id==='pin'&&current){current.pinned=!current.pinned;b.textContent=current.pinned?'📌 Pinned':'📌 Pin';autosave()}
+if(b.id==='theme'){dark=!dark;setTheme()}
+if(b.id==='backup')exportBackup();
+if(b.id==='restorebackup')$('importfile').click();
+if(b.id==='addcat'){let c=prompt('New category name:');if(c?.trim()&&!cats.includes(c.trim())){cats.push(c.trim());await persist();render();toast('Category added')}}
+if(b.dataset.view){view=b.dataset.view;filter='All';document.querySelectorAll('.nav[data-view]').forEach(x=>x.classList.toggle('active',x===b));screen(view==='trash'?'trash':'home');render()}
+if(b.dataset.cat){view='cat';filter=b.dataset.cat;screen('home');render()}
+if(b.dataset.filter){view='all';filter=b.dataset.filter;render()}
+if(b.dataset.open)editor(b.dataset.open);
+if(b.dataset.restore){let n=trash.find(x=>x.id===b.dataset.restore);if(n){let {deletedAt,...rest}=n;notes.unshift(rest);trash=trash.filter(x=>x.id!==n.id);await persist();render();toast('Note restored')}}
+if(b.dataset.permanent&&confirm('Delete permanently?')){trash=trash.filter(x=>x.id!==b.dataset.permanent);await persist();render()}
+if(b.dataset.remove!==undefined){photos.splice(+b.dataset.remove,1);renderPhotos();autosave()}
+if(b.id==='emptytrash'&&trash.length&&confirm('Permanently delete everything in Trash?')){trash=[];await persist();renderTrash()}
+});
+$('search').addEventListener('input',render);['ntitle','body','category'].forEach(id=>$(id).addEventListener('input',autosave));$('category').addEventListener('change',autosave);
+$('photosInput').addEventListener('change',async e=>{for(let f of e.target.files){if(!f.type.startsWith('image/'))continue;if(f.size>8*1024*1024){toast('Each photo must be smaller than 8 MB.');continue}let data=await new Promise((res,rej)=>{let r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});photos.push({data,caption:f.name.replace(/\.[^.]+$/,'')})}e.target.value='';renderPhotos();autosave()});
+$('photos').addEventListener('input',e=>{if(e.target.dataset.caption!==undefined){photos[+e.target.dataset.caption].caption=e.target.value;autosave()}});
+$('importfile').addEventListener('change',e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''});
+(async()=>{try{await openDB();notes=await read('notes')||[];trash=await read('trash')||[];cats=await read('cats')||cats;render();setTheme()}catch(e){toast('Browser storage is unavailable. Try a different browser.');render()}})();
+})();
+</script>
+</body></html>
